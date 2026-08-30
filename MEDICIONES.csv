@@ -1,9 +1,9 @@
 endpoint,clasificacion,decision,concurrencia,peticiones,tiempo_total_s,p50_ms,p95_ms
-/ping,,,1,50,,,
-/ping,,,20,50,,,
-/consulta-archivo,,,1,50,,,
-/consulta-archivo,,,20,50,,,
-/servicio-externo,,,1,50,,,
-/servicio-externo,,,20,50,,,
-/calculo-pesado,,,1,50,,,
-/calculo-pesado,,,20,50,,,
+/ping,trivial,def,1,50,0.163,3.1,4
+/ping,trivial,def,20,50,2.095,5.6,2058.5
+/consulta-archivo,IO-bound,async def,1,50,0.165,3.1,4.1
+/consulta-archivo,IO-bound,async def,20,50,2.146,4.6,2124
+/servicio-externo,IO-bound,async def,1,50,15.183,303.4,304.8
+/servicio-externo,IO-bound,async def,20,50,15.135,5749.3,7715.4
+/calculo-pesado,CPU-bound,async def + executor,1,50,34.246,663.3,840.2
+/calculo-pesado,CPU-bound,async def + executor,20,50,33.123,13298.7,14393.4

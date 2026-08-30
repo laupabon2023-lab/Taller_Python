@@ -48,10 +48,7 @@
 > Un párrafo por endpoint. Expliquen **los tiempos que ustedes obtuvieron**, no la
 > teoría general. Si un resultado los sorprendió, dígan­lo: eso se premia.
 
-## `/ping`
-
-## `/consulta-archivo`
-
-## `/servicio-externo`
-
-## `/calculo-pesado`
+## `/ping`: es Trivial porque devuelve un valor ya definido, no hace cálculos.Con concurrencia 1, obtuvo un p50 de 3,1 ms; con concurrencia 20, el p95 aumentó a 2.058,5 ms y el tiempo total a 2,095 s.Esto indica que aunque la petición es inmediata,al aumentar la concurrencia algunas peticiones deben esperar para ser atendidas.Por esto, la decisión es mantener def, ya que al ser una operación trivial no se justifica agregar la complejidad de async def o un executor.
+## `/consulta-archivo`: Es IO- bpund por que lee un archivo con read_text(). Con concurrencia 1, obtuvo un p50 de 3,1 ms; con concurrencia 20, el p95 fue de 2.124 ms y el tiempo total de 2,146 s.Aunque la lectura detiene por un momento el hilo que ejecuta la función hasta que termina de leerlo, su impacto es similar al de ping,por lo tanto se mantiene async def.
+## `/servicio-externo`:es IO-bound porque simula una llamada a un servicio externo que requiere esperar aproximadamente 0,3 segundos.Con concurrencia 1, el p50 fue de 303,4 ms, mientras que con concurrencia 20 subió a 5.749,3 ms,aunque el tiempo total se mantuvo prácticamente igual, alrededor de 15 segundos.Esto sucede porque utiliza time.sleep() que bloquea el procesamiento de las demás peticiones y hace que se atiendan prácticamente una detrás de otra. Por esto, la decisión es usar async def con await asyncio.sleep(), permitiendo que mientras una petición espera la respuesta externa, el servidor pueda atender otras solicitudes.
+## `/calculo-pesado`: es CPU-bound porque realiza un cálculo numérico intensivo en Python. Con concurrencia 1, cada petición tarda ~663ms. Con concurrencia 20, sube a ~13,299ms,lo que indica que las peticiones se están procesando prácticamente una detrás de otra, ya que el cálculo pesado mantiene ocupado el proceso encargado de atender las solicitudes.Por esto, la decisión es usar async def + executor con ProcessPoolExecutor, que permite sacar el cálculo del proceso principal y ejecutarlo en procesos independientes, aprovechando mejor la capacidad de procesamiento de la CPU.
