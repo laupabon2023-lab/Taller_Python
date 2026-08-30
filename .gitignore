@@ -1,1 +1,16 @@
+# Entornos virtuales
+venv/
+.venv/
+env/
+
+# Secretos (nunca se sube el valor real)
+.env
+
+# Python
+__pycache__/
 *.pyc
+*.pyo
+.pytest_cache/
+
+# Sistema
+.DS_Store*.pyc

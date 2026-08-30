@@ -12,19 +12,29 @@ pip install -r requirements.txt
 
 El modelo entrenado (`modelo.pkl`) viene en el repositorio.
 
+Antes de arrancar, exporta las variables de entorno necesarias (pedir los
+valores reales al equipo; aquí solo se muestra el formato esperado):
+```bash
+export API_KEY="clave_personal"
+export CLAVE_FIRMA="clave_firma"
+```
+
 ## Puesta en marcha
 
+### Desarrollo (con recarga automática)
 ```bash
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-El mismo comando sirve en el servidor de producción. `--reload` es cómodo
-porque recoge los cambios sin reiniciar a mano.
+El arranque de producción **no usa `--reload`**: esa bandera vigila cambios
+en disco y reinicia el servidor, lo cual es útil en desarrollo pero añade
+sobrecarga y comportamiento no determinista en producción.
 
 ## Endpoints
 
 | Método | Ruta | Qué hace |
 |---|---|---|
+| GET | `/health` | Comprobación de salud del servicio |ñ
 | POST | `/score` | Puntúa una póliza |
 | GET | `/historial` | Evaluaciones hechas |
 | GET | `/siniestros/{id}` | Consulta un siniestro |
@@ -48,5 +58,7 @@ curl -X POST localhost:8000/score \
 
 ## Notas
 
-- La clave de la API está en `config.py` para que el equipo pueda probar sin configurar nada.
-- El histórico se exporta con `pickle`, que conserva los tipos de Python tal cual.
+- LaLa clave de la API se lee desde la variable de entorno `API_KEY`, nunca se
+  versiona en el código (ver `config.py`).
+- El histórico se exporta como JSON (`GET /exportar`); no se usa `pickle`
+  para nada que salga hacia un cliente externo.
