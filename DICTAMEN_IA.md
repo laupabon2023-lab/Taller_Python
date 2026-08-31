@@ -12,7 +12,7 @@
 - **Por qué es un defecto** (módulo · sección):
   M4 · 3. Validación declarativa con Pydantic. Un validador de campo **debe retornar** el valor transformado; si no lo hace, la validación no tiene efecto y se pierde la intención del diseño.
 
-- **C—mo lo comprobamos:**
+- **Cómo lo comprobamos:**
 
 ```python
 from ia_propuesta import SolicitudPuntuacion
