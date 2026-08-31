@@ -4,16 +4,16 @@
 **Herramientas usadas:** ChatGPT 4o, Claude 3.5 Sonnet, GitHub Copilot
 
 > Las tres secciones son obligatorias. **`## Rechazado` es la que se califica.**  
-> Una bitá·¿cora que solo lista prompts aceptados vale la mitad.
+> Una bitácora que solo lista prompts aceptados vale la mitad.
 
 ---
 
 ## Prompts
 
-| # | Parte | Quié·¿n | Prompt (resumido si es largo) |
+| # | Parte | Quién | Prompt (resumido si es largo) |
 |---|-------|--------|-------------------------------|
 | 1 | A | Sebastián | «Ayuda a identificar defectos en un servicio FastAPI que funciona pero está mal hecho. Revisa este main.py y dime qué prácticas están mal según módulos de API: carga de modelo, códigos HTTP, serializació·¿·n, decoradores, etc. Dame lista con síntoma, causa y cómo comprobar con curl. » |
-| 2 | A | Sebastián | «Para cada defecto que encuentres, dime qué módulo y sección del material de Python para APIs e IA (mó·¿·dulos 1-5) lo respalda. Cita exacta: "Mó·¿·dulo X · Secció·¿·n Y". » |
+| 2 | A | Sebastián | «Para cada defecto que encuentres, dime qué módulo y sección del material de Python para APIs e IA (mó·¿·dulos 1-5) lo respalda. Cita exacta: "Módulo X · Sección Y" » |
 | 3 | B | Camila | «Necesito refactorizar este servicio FastAPI para que cumpla: (1) modelo cargado al inicio, (2) validació·¿·n con Pydantic BaseModel + Field, (3) HTTP 422 para errores de validació·¿·n, (4) endpoint /health, (5) arranque de producció·¿·n sin --reload. Dame el có­digo corregido. » |
 | 4 | B | Camila | «Escribe un decorador en Python que registre llamadas a una funció·¿·n pero que no oculte la identidad de la funció·¿·n original (que se pueda ver el nombre con .__name__) y que no trague excepciones devolviendo None. » |
 | 5 | C | Andrés | «Tengo 4 endpoints: /ping (trivial), /consulta-archivo (lee disco), /servicio-externo (llama HTTP externo), /calculo-pesado (cÁ·lculo numé·¿rico intensivo). Clasifí·¿calos como IO-bound, CPU-bound o trivial, y dime si deben ser def, async def o async def + executor. Justifica. » |
