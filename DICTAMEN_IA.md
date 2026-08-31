@@ -108,7 +108,7 @@ async def _puntuar(solicitud: SolicitudPuntuacion) -> float:
 ## Defecto 3
 
 - **Qué ¿está mal?:**
-  El campo `correo_analista` (líneas 17-19) usa `pattern=...` directamente en `Field()`. En **Pydantic v2**, esta sintaxis **no es v‡lida**: las restricciones de patrón regex deben aplicarse mediante `Annotated` con `StringConstraints`, no como argumento directo de `Field()`.
+  El campo `correo_analista` (líneas 17-19) usa `pattern=...` directamente en `Field()`. En **Pydantic v2**, esta sintaxis **no es válida**: las restricciones de patrón regex deben aplicarse mediante `Annotated` con `StringConstraints`, no como argumento directo de `Field()`.
 
 - **Por qué es un defecto** (módulo · sección):
   M4 · 3. Validación declarativa con Pydantic. Pydantic v2 cambiá la API de validación de strings: `Field(pattern=...)` fue reemplazado por `Annotated[str, StringConstraints(pattern=...)]`. Usar la sintaxis de v1 en v2 genera un `TypeError` o ignora la validación.
@@ -118,7 +118,7 @@ async def _puntuar(solicitud: SolicitudPuntuacion) -> float:
 ```python
 from ia_propuesta import SolicitudPuntuacion
 
-# Intentar crear una instancia con un correo inv‡lido
+# Intentar crear una instancia con un correo inválido
 try:
     s = SolicitudPuntuacion(
         poliza="POL-2026-0413",
