@@ -52,7 +52,7 @@ def redondear_monto(cls, v: float) -> float:
   La función `_puntuar` (l’nea 40) es declarada como `async def` pero usa `time.sleep(0.2)`, que es una llamada **bloqueante**. Esto anula los beneficios de la asincronía porque el event loop se queda esperando sin poder atender otras tareas.
 
 - **Por qué es un defecto**(módulo sección):
-  M5 · 4. Concurrencia asíncrona. En Python, `time.sleep()` bloquea el hilo completo, mientras que `await asyncio.sleep()` libera el event loop para que pueda procesar otras coroutines concurrentes. Usar `sleep` síncrono dentro de `async def` es un anti-patrón que degrada el rendimiento bajo concurrencia.
+  M5. 4. Concurrencia asíncrona. En Python, `time.sleep()` bloquea el hilo completo, mientras que `await asyncio.sleep()` libera el event loop para que pueda procesar otras coroutines concurrentes. Usar `sleep` síncrono dentro de `async def` es un anti-patrón que degrada el rendimiento bajo concurrencia.
 
 - **Cómo lo comprobamos:**
 
@@ -136,7 +136,7 @@ except Exception as e:
 Correo aceptado (ERROR): correo_invalido
 ```
 
-El correo inv‡lido **debería generar un ValidationError**, pero es aceptado porque el patrón regex no se est‡ aplicando correctamente.
+El correo inválido **debería generar un ValidationError**, pero es aceptado porque el patrón regex no se está aplicando correctamente.
 
 - **Corrección:**
   Usar `Annotated` con `StringConstraints` (requiere importar `from pydantic import StringConstraints` y `from typing import Annotated`):
@@ -169,7 +169,7 @@ class SolicitudPuntuacion(BaseModel):
 
 ## Resumen de correcciones aplicadas
 
-| Defecto | Archivo corregido | L’neas afectadas |
+| Defecto | Archivo corregido | Líneas afectadas |
 |---------|-------------------|------------------|
 | 1. Validador sin return | `ia_propuesta_corregida.py` | 26-28 |
 | 2. `time.sleep` en async | `ia_propuesta_corregida.py` | 40 |
