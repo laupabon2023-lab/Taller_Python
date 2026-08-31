@@ -1,6 +1,6 @@
 # Dictamen sobre `ia_propuesta.py` — Parte D
 
-**Grupo:** <number> · **Integrantes:** <nombre 1>, <nombre 2>, <nombre 3>
+**Grupo:** <number> · **Integrantes:** Laura Pabon y Lizeth Rodriguez.
 
 ---
 
