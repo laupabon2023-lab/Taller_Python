@@ -10,7 +10,7 @@
 
 ## Prompts
 
-| # | Parte | Quién | Prompt (resumido si es largo) |
+| # | Parte | Quién | Prompt |
 |---|-------|--------|-------------------------------|
 | 1 | A | Laura | «Ayuda a identificar defectos en un servicio FastAPI que funciona pero está mal hecho. Revisa este main.py y dime qué prácticas están mal según módulos de API: carga de modelo, códigos HTTP, serialización, decoradores, etc. Dame lista con síntoma, causa y cómo comprobar con curl. » |
 | 2 | A | Lizeth | «Para cada defecto que encuentres, dime qué módulo y sección del material de Python para APIs e IA (módulos 1-5) lo respalda. Cita exacta: "Módulo X , Sección Y"» |
