@@ -92,7 +92,7 @@ Tiempo real (bloqueante): ~1.0 s
 
 Con 5 solicitudes que deber’an tomar 0.2 s cada una en paralelo, el tiempo total deber’a ser ~0.2 s. En cambio, toma ~1.0 s porque se ejecutan **una tras otra** (5 × 0.2 s = 1.0 s).
 
-- **Correcci—n:**
+- **Corrección:**
   Reemplazar `time.sleep(0.2)` por `await asyncio.sleep(0.2)`:
 
 ```python
