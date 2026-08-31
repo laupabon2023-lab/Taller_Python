@@ -107,13 +107,13 @@ async def _puntuar(solicitud: SolicitudPuntuacion) -> float:
 
 ## Defecto 3
 
-- **Qu— est‡ mal:**
-  El campo `correo_analista` (l’neas 17-19) usa `pattern=...` directamente en `Field()`. En **Pydantic v2**, esta sintaxis **no es v‡lida**: las restricciones de patr—n regex deben aplicarse mediante `Annotated` con `StringConstraints`, no como argumento directo de `Field()`.
+- **Qué ¿está mal?:**
+  El campo `correo_analista` (líneas 17-19) usa `pattern=...` directamente en `Field()`. En **Pydantic v2**, esta sintaxis **no es v‡lida**: las restricciones de patrón regex deben aplicarse mediante `Annotated` con `StringConstraints`, no como argumento directo de `Field()`.
 
-- **Por qu— es un defecto** (m—dulo · secci—n):
-  M4 · 3. Validaci—n declarativa con Pydantic. Pydantic v2 cambi— la API de validaci—n de strings: `Field(pattern=...)` fue reemplazado por `Annotated[str, StringConstraints(pattern=...)]`. Usar la sintaxis de v1 en v2 genera un `TypeError` o ignora la validaci—n.
+- **Por qué es un defecto** (módulo · sección):
+  M4 · 3. Validación declarativa con Pydantic. Pydantic v2 cambiá la API de validación de strings: `Field(pattern=...)` fue reemplazado por `Annotated[str, StringConstraints(pattern=...)]`. Usar la sintaxis de v1 en v2 genera un `TypeError` o ignora la validación.
 
-- **C—mo lo comprobamos:**
+- **Cómo lo comprobamos:**
 
 ```python
 from ia_propuesta import SolicitudPuntuacion
@@ -136,9 +136,9 @@ except Exception as e:
 Correo aceptado (ERROR): correo_invalido
 ```
 
-El correo inv‡lido **deber’a generar un ValidationError**, pero es aceptado porque el patr—n regex no se est‡ aplicando correctamente.
+El correo inv‡lido **debería generar un ValidationError**, pero es aceptado porque el patrón regex no se est‡ aplicando correctamente.
 
-- **Correcci—n:**
+- **Corrección:**
   Usar `Annotated` con `StringConstraints` (requiere importar `from pydantic import StringConstraints` y `from typing import Annotated`):
 
 ```python
