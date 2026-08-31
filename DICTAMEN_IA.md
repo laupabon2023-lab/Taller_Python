@@ -6,8 +6,8 @@
 
 ## Defecto 1
 
-- **Qué·¿está·¿mal:**
-  El validador de campo `redondear_monto` (lí·¿neas 26-28) ejecuta `round(v, 2)` pero **no retorna el valor**. Como resultado, el monto no se redondea y Pydantic usa el valor original sin modificaci—n.
+- **Qué ¿está mal?:**
+  El validador de campo `redondear_monto` (líneas 26-28) ejecuta `round(v, 2)` pero **no retorna el valor**. Como resultado, el monto no se redondea y Pydantic usa el valor original sin modificaci—n.
 
 - **Por qu— es un defecto** (m—dulo · secci—n):
   M4 · 3. Validaci—n declarativa con Pydantic. Un validador de campo **debe retornar** el valor transformado; si no lo hace, la validaci—n no tiene efecto y se pierde la intenci—n del dise–o.
