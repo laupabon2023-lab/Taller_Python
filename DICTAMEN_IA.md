@@ -9,7 +9,7 @@
 - **Qué ¿está mal?:**
   El validador de campo `redondear_monto` (líneas 26-28) ejecuta `round(v, 2)` pero **no retorna el valor**. Como resultado, el monto no se redondea y Pydantic usa el valor original sin modificaci—n.
 
-- **Por qué es un defecto** (módulo · sección):
+- **Por qué es un defecto** (módulo sección):
   M4. 3. Validación declarativa con Pydantic. Un validador de campo **debe retornar** el valor transformado; si no lo hace, la validación no tiene efecto y se pierde la intención del diseño.
 
 - **Cómo lo comprobamos:**
@@ -51,7 +51,7 @@ def redondear_monto(cls, v: float) -> float:
 - **Qué ¿está mal?:**
   La función `_puntuar` (l’nea 40) es declarada como `async def` pero usa `time.sleep(0.2)`, que es una llamada **bloqueante**. Esto anula los beneficios de la asincronía porque el event loop se queda esperando sin poder atender otras tareas.
 
-- **Por qué es un defecto**(módulo · sección):
+- **Por qué es un defecto**(módulo sección):
   M5 · 4. Concurrencia asíncrona. En Python, `time.sleep()` bloquea el hilo completo, mientras que `await asyncio.sleep()` libera el event loop para que pueda procesar otras coroutines concurrentes. Usar `sleep` síncrono dentro de `async def` es un anti-patrón que degrada el rendimiento bajo concurrencia.
 
 - **Cómo lo comprobamos:**
@@ -110,7 +110,7 @@ async def _puntuar(solicitud: SolicitudPuntuacion) -> float:
 - **Qué ¿está mal?:**
   El campo `correo_analista` (líneas 17-19) usa `pattern=...` directamente en `Field()`. En **Pydantic v2**, esta sintaxis **no es válida**: las restricciones de patrón regex deben aplicarse mediante `Annotated` con `StringConstraints`, no como argumento directo de `Field()`.
 
-- **Por qué es un defecto** (módulo · sección):
+- **Por qué es un defecto** (módulo sección):
   M4 · 3. Validación declarativa con Pydantic. Pydantic v2 cambiá la API de validación de strings: `Field(pattern=...)` fue reemplazado por `Annotated[str, StringConstraints(pattern=...)]`. Usar la sintaxis de v1 en v2 genera un `TypeError` o ignora la validación.
 
 - **Cómo lo comprobamos:**
