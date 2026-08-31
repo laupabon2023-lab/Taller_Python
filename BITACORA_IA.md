@@ -61,8 +61,8 @@
 ## Lecciones aprendidas
 
 1. **Medir antes de decidir (Parte C):** La IA nos dijo "usa async para todo", pero las mediciones mostraron que no siempre mejora. La regla "I/O → async" tiene excepciones (ej. `read_text()` es síncrono).
-2. **Validación declarativa > assert (Parte B):** `Field(gt=0)` es má­­s seguro y claro que `assert`. Además, FastAPI responde 422 automá·¿­ticamente, sin có­digo extra.
+2. **Validación declarativa > assert (Parte B):** `Field(gt=0)` es má­­s seguro y claro que `assert`. Además, FastAPI responde 422 automáticamente, sin có­digo extra.
 3. **Pydantic v2 es distinto a v1:** `Field(pattern=...)` ya no valida en v2. Hay que usar `@field_validator` o `Annotated[str, StringConstraints(pattern=...)]`.
 4. **El decorador debe conservar la identidad:** `@functools.wraps(func)` no es opcional si queremos que `func.__name__` y `func.__doc__` se preserven. Además, no se debe tragar excepciones con `return None`.
-5. **No exponer secretos en el README:** Aunque la IA lo sugirió·¿· como "ejemplo", exponer `API_KEY` y `CLAVE_FIRMA` en el README los sube al historial de git. Mejor usar valores gené·¿­ricos (`"tu-clave-aquí£¬"`) y variables de entorno.
-6. **La bitá·¿cora no es solo lista de prompts:** Lo que se califica es mostrar criterio: qué rechazamos y por qué. Usar IA no es aceptar todo ciegamente; hay que verificar contra el enunciado y el material del curso.
+5. **No exponer secretos en el README:** Aunque la IA lo sugirió como "ejemplo", exponer `API_KEY` y `CLAVE_FIRMA` en el README los sube al historial de git. Mejor usar valores genéricos (`"tu-clave-aquí£¬"`) y variables de entorno.
+6. **La bitácora no es solo lista de prompts:** Lo que se califica es mostrar criterio: qué rechazamos y por qué. Usar IA no es aceptar todo ciegamente; hay que verificar contra el enunciado y el material del curso.
