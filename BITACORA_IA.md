@@ -13,7 +13,7 @@
 | # | Parte | Quién | Prompt (resumido si es largo) |
 |---|-------|--------|-------------------------------|
 | 1 | A | Laura | «Ayuda a identificar defectos en un servicio FastAPI que funciona pero está mal hecho. Revisa este main.py y dime qué prácticas están mal según módulos de API: carga de modelo, códigos HTTP, serialización, decoradores, etc. Dame lista con síntoma, causa y cómo comprobar con curl. » |
-| 2 | A | Lizeth | «Para cada defecto que encuentres, dime qué módulo y sección del material de Python para APIs e IA (módulos 1-5) lo respalda. Cita exacta: "Módulo X · Sección Y"» |
+| 2 | A | Lizeth | «Para cada defecto que encuentres, dime qué módulo y sección del material de Python para APIs e IA (módulos 1-5) lo respalda. Cita exacta: "Módulo X , Sección Y"» |
 | 3 | B | Laura | «Necesito refactorizar este servicio FastAPI para que cumpla: (1) modelo cargado al inicio, (2) validación con Pydantic BaseModel + Field, (3) HTTP 422 para errores de validación, (4) endpoint /health, (5) arranque de producción sin --reload. Dame el có­digo corregido. » |
 | 4 | B | Lizeth | «Escribe un decorador en Python que registre llamadas a una función pero que no oculte la identidad de la función original (que se pueda ver el nombre con .__name__) y que no trague excepciones devolviendo None. » |
 | 5 | C | Laura | «Tengo 4 endpoints: /ping (trivial), /consulta-archivo (lee disco), /servicio-externo (llama HTTP externo), /calculo-pesado (cálculo numérico intensivo). Clasifícarlos como IO-bound, CPU-bound o trivial, y dime si deben ser def, async def o async def + executor. Justifica. » |
