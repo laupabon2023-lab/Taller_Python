@@ -1,6 +1,6 @@
-# Bitá·¿cora de uso de IA
+# Bitácora de uso de IA
 
-**Grupo:** <n número> · **Integrantes:** <nombre 1>, <nombre 2>, <nombre 3>  
+**Grupo:** 2 · **Integrantes:** Laura Pabon y Lizeth Rodriguez.   
 **Herramientas usadas:** ChatGPT 4o, Claude 3.5 Sonnet, GitHub Copilot
 
 > Las tres secciones son obligatorias. **`## Rechazado` es la que se califica.**  
