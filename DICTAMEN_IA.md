@@ -33,8 +33,8 @@ Monto validado: 1234.56789
 
 El monto deber’a haber sido `1234.57` (redondeado a 2 decimales), pero quedo como `1234.56789`.
 
-- **Correcci—n:**
-  A–adir `return` antes de `round(v, 2)`:
+- **Corrección:**
+  Añadir `return` antes de `round(v, 2)`:
 
 ```python
 @field_validator("monto")
