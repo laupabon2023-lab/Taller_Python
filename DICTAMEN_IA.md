@@ -52,7 +52,7 @@ def redondear_monto(cls, v: float) -> float:
   La función `_puntuar` (l’nea 40) es declarada como `async def` pero usa `time.sleep(0.2)`, que es una llamada **bloqueante**. Esto anula los beneficios de la asincronía porque el event loop se queda esperando sin poder atender otras tareas.
 
 - **Por qué es un defecto**(módulo · sección):
-  M5 · 4. Concurrencia asíncrona. En Python, `time.sleep()` bloquea el hilo completo, mientras que `await asyncio.sleep()` libera el event loop para que pueda procesar otras coroutines concurrentes. Usar `sleep` s’ncrono dentro de `async def` es un anti-patr—n que degrada el rendimiento bajo concurrencia.
+  M5 · 4. Concurrencia asíncrona. En Python, `time.sleep()` bloquea el hilo completo, mientras que `await asyncio.sleep()` libera el event loop para que pueda procesar otras coroutines concurrentes. Usar `sleep` síncrono dentro de `async def` es un anti-patrón que degrada el rendimiento bajo concurrencia.
 
 - **Cómo lo comprobamos:**
 
