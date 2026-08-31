@@ -1,4 +1,4 @@
-# Bitá·¿cora de uso de IA
+# Bitácora de uso de IA
 
 **Integrantes:** Laura Pabón, Lizeth Rodríguez  
 **Herramientas usadas:** ChatGPT 4o, Claude 3.5 Sonnet, GitHub Copilot
