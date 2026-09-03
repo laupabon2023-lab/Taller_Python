@@ -13,4 +13,5 @@ __pycache__/
 .pytest_cache/
 
 # Sistema
-.DS_Store*.pyc
+.DS_Store
+guia_preguntas_sustentacion.md

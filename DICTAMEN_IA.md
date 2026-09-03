@@ -7,10 +7,10 @@
 ## Defecto 1
 
 - **Qué ¿está mal?:**
-  El validador de campo `redondear_monto` (líneas 26-28) ejecuta `round(v, 2)` pero **no retorna el valor**. Como resultado, el monto no se redondea y Pydantic usa el valor original sin modificaci—n.
+  El validador de campo `redondear_monto` (líneas 26-28) ejecuta `round(v, 2)` pero **no retorna el valor**. Como resultado, el monto no se redondea y el campo termina en None.
 
 - **Por qué es un defecto** (módulo sección):
-  M4. 3. Validación declarativa con Pydantic. Un validador de campo **debe retornar** el valor transformado; si no lo hace, la validación no tiene efecto y se pierde la intención del diseño.
+  M4. 6. Validadores de campo. Un validador de campo **debe retornar** el valor transformado; si no lo hace, la validación no tiene efecto y se pierde la intención del diseño.
 
 - **Cómo lo comprobamos:**
 
@@ -28,10 +28,10 @@ print(f"Monto validado: {s.monto}")
 ```
 
 ```
-Monto validado: 1234.56789
+Monto validado: None 
 ```
 
-El monto deber’a haber sido `1234.57` (redondeado a 2 decimales), pero quedo como `1234.56789`.
+El monto debería haber sido `1234.57` (redondeado a 2 decimales), pero queda el campo como None.
 
 - **Corrección:**
   Añadir `return` antes de `round(v, 2)`:
@@ -49,10 +49,10 @@ def redondear_monto(cls, v: float) -> float:
 ## Defecto 2
 
 - **Qué ¿está mal?:**
-  La función `_puntuar` (l’nea 40) es declarada como `async def` pero usa `time.sleep(0.2)`, que es una llamada **bloqueante**. Esto anula los beneficios de la asincronía porque el event loop se queda esperando sin poder atender otras tareas.
+  La función `_puntuar` (linea 40) es declarada como `async def` pero usa `time.sleep(0.2)`, que es una llamada **bloqueante**. Esto anula los beneficios de la asincronía porque el event loop se queda esperando sin poder atender otras tareas.
 
 - **Por qué es un defecto**(módulo sección):
-  M5. 4. Concurrencia asíncrona. En Python, `time.sleep()` bloquea el hilo completo, mientras que `await asyncio.sleep()` libera el event loop para que pueda procesar otras coroutines concurrentes. Usar `sleep` síncrono dentro de `async def` es un anti-patrón que degrada el rendimiento bajo concurrencia.
+  M5. 6. Síncrono frente a asíncrono. En Python, `time.sleep()` bloquea el event loop aunque la función sea async. Esto impide la ejecución concurrente de otras tareas y hace que asyncio.gather() procese las solicitudes prácticamente una por una.
 
 - **Cómo lo comprobamos:**
 
@@ -64,7 +64,7 @@ from ia_propuesta import _puntuar, SolicitudPuntuacion
 async def medir_tiempo_lote():
     solicitudes = [
         SolicitudPuntuacion(
-            poliza=f"POL-{i}",
+            poliza=f"POL-{i:04d}xxxx", 
             correo_analista="test@example.com",
             monto=1000,
             antiguedad=3,
@@ -90,7 +90,7 @@ Tiempo esperado si fuera no bloqueante: ~0.2 s
 Tiempo real (bloqueante): ~1.0 s
 ```
 
-Con 5 solicitudes que deber’an tomar 0.2 s cada una en paralelo, el tiempo total deber’a ser ~0.2 s. En cambio, toma ~1.0 s porque se ejecutan **una tras otra** (5 × 0.2 s = 1.0 s).
+Con 5 solicitudes que deberían tomar 0.2 s cada una en paralelo, el tiempo total debería ser ~0.2 s. En cambio, toma ~1.0 s porque se ejecutan **una tras otra** (5 × 0.2 s = 1.0 s).
 
 - **Corrección:**
   Reemplazar `time.sleep(0.2)` por `await asyncio.sleep(0.2)`:
@@ -108,71 +108,41 @@ async def _puntuar(solicitud: SolicitudPuntuacion) -> float:
 ## Defecto 3
 
 - **Qué ¿está mal?:**
-  El campo `correo_analista` (líneas 17-19) usa `pattern=...` directamente en `Field()`. En **Pydantic v2**, esta sintaxis **no es válida**: las restricciones de patrón regex deben aplicarse mediante `Annotated` con `StringConstraints`, no como argumento directo de `Field()`.
+  El patrón de correo en correo_analista usa {2,3} para la longitud del dominio de nivel superior (TLD): r"^[A-Za-z0-9_.+-]+@[A-Za-z0-9-]+\.[A-Za-z]{2,3}$". Esto rechaza incorrectamente correos válidos cuyo TLD tiene 4 o más letras, como .info o .online
 
 - **Por qué es un defecto** (módulo sección):
-  M4 · 3. Validación declarativa con Pydantic. Pydantic v2 cambiá la API de validación de strings: `Field(pattern=...)` fue reemplazado por `Annotated[str, StringConstraints(pattern=...)]`. Usar la sintaxis de v1 en v2 genera un `TypeError` o ignora la validación.
+  M4 · 4. El poder de Fiel. Un patrón de validación debe cubrir el rango real de datos válidos y un TLD de más de 3 letras es perfectamente válido, así que restringirlo a {2,3} produce falsos negativos: usuarios con un correo real y correcto quedan bloqueados por el sistema.
 
 - **Cómo lo comprobamos:**
 
 ```python
 from ia_propuesta import SolicitudPuntuacion
 
-# Intentar crear una instancia con un correo inválido
-try:
-    s = SolicitudPuntuacion(
-        poliza="POL-2026-0413",
-        correo_analista="correo_invalido",  # Sin @ ni dominio
-        monto=1000,
-        antiguedad=3,
-        siniestros_previos=1
-    )
-    print(f"Correo aceptado (ERROR): {s.correo_analista}")
-except Exception as e:
-    print(f"Excepci—n: {type(e).__name__}: {e}")
+s = SolicitudPuntuacion(
+    poliza="POL-2026-0413",
+    correo_analista="analista@empresa.info",  # correo válido, TLD de 4 letras
+    monto=1000,
+    antiguedad=3,
+    siniestros_previos=1
+)
+print(f"Correo aceptado: {s.correo_analista}")
 ```
 
 ```
-Correo aceptado (ERROR): correo_invalido
+pydantic_core._pydantic_core.ValidationError: 1 validation error for SolicitudPuntuacion
+correo_analista
+  String should match pattern '^[A-Za-z0-9_.+-]+@[A-Za-z0-9-]+\.[A-Za-z]{2,3}$'
 ```
 
-El correo inválido **debería generar un ValidationError**, pero es aceptado porque el patrón regex no se está aplicando correctamente.
+Un correo válido es rechazado por el patrón.
 
 - **Corrección:**
-  Usar `Annotated` con `StringConstraints` (requiere importar `from pydantic import StringConstraints` y `from typing import Annotated`):
+  Quitar el límite superior del TLD, de {2,3} a {2,}:
 
 ```python
-from typing import Annotated, Optional
-from pydantic import BaseModel, Field, field_validator, StringConstraints
 
-class SolicitudPuntuacion(BaseModel):
-    """Datos de entrada para puntuar una p—liza."""
-
-    poliza: str = Field(min_length=8, max_length=20)
-    correo_analista: Annotated[
-        str,
-        StringConstraints(pattern=r"^[A-Za-z0-9_.+-]+@[A-Za-z0-9-]+\.[A-Za-z]{2,}$")
-    ]
-    monto: float = Field(gt=0)
-    antiguedad: int = Field(ge=0, le=60)
-    siniestros_previos: int = Field(ge=0)
-    observaciones: Optional[str] = Field(default=None, max_length=200)
-
-    @field_validator("monto")
-    @classmethod
-    def redondear_monto(cls, v: float) -> float:
-        """Redondea el monto a dos decimales para evitar ruido de coma flotante."""
-        return round(v, 2)
-```
+EMAIL_PATTERN = re.compile(r"^[A-Za-z0-9_.+-]+@[A-Za-z0-9-]+\.[A-Za-z]{2,}$")```
 
 ---
-
-## Resumen de correcciones aplicadas
-
-| Defecto | Archivo corregido | Líneas afectadas |
-|---------|-------------------|------------------|
-| 1. Validador sin return | `ia_propuesta_corregida.py` | 26-28 |
-| 2. `time.sleep` en async | `ia_propuesta_corregida.py` | 40 |
-| 3. `pattern` en Field (v1) | `ia_propuesta_corregida.py` | 17-19 |
 
 **Archivo con las tres correcciones:** `ia_propuesta_corregida.py`
