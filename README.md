@@ -25,7 +25,10 @@ export CLAVE_FIRMA="clave_firma"
 ```bash
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
-
+### Producción
+```bash
+uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4
+```
 El arranque de producción **no usa `--reload`**: esa bandera vigila cambios
 en disco y reinicia el servidor, lo cual es útil en desarrollo pero añade
 sobrecarga y comportamiento no determinista en producción.
@@ -34,7 +37,7 @@ sobrecarga y comportamiento no determinista en producción.
 
 | Método | Ruta | Qué hace |
 |---|---|---|
-| GET | `/health` | Comprobación de salud del servicio |ñ
+| GET | `/health` | Comprobación de salud del servicio |
 | POST | `/score` | Puntúa una póliza |
 | GET | `/historial` | Evaluaciones hechas |
 | GET | `/siniestros/{id}` | Consulta un siniestro |
@@ -58,7 +61,7 @@ curl -X POST localhost:8000/score \
 
 ## Notas
 
-- LaLa clave de la API se lee desde la variable de entorno `API_KEY`, nunca se
+- La clave de la API se lee desde la variable de entorno `API_KEY`, nunca se
   versiona en el código (ver `config.py`).
 - El histórico se exporta como JSON (`GET /exportar`); no se usa `pickle`
   para nada que salga hacia un cliente externo.
