@@ -2,7 +2,7 @@
 import functools
 
 def con_registro(func):
-    """Registra la llamada y evita que un fallo tumbe el servicio."""
+    """Registra la llamada y deja que cualquier fallo se propague."""
     @functools.wraps(func)
     def envoltura(*args, **kwargs):
         try:
